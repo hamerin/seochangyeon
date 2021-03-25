@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "moduleResolution": "node",
+        "incremental": true,
+        "outDir": "build"
+    },
+    "include": [
+        ".*.json",
+        "index.ts",
+        "**/*.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
