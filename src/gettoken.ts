@@ -4,9 +4,15 @@ import { google, sheets_v4 } from 'googleapis'
 import { OAuth2Client } from 'googleapis-common'
 
 import { GOOGLE } from './config'
-import { ErrorMessage } from './util'
+import { ErrorMessage, googleTokenType } from './util'
 
-export async function getToken(message: Message, oAuth2Client: OAuth2Client): Promise<sheets_v4.Sheets | undefined> {
+type authenticationResult = {
+  sheets: sheets_v4.Sheets
+  name?: string
+  emailAddress?: string
+}
+
+export async function getToken(message: Message, oAuth2Client: OAuth2Client): Promise<authenticationResult | undefined> {
   const authUrl = oAuth2Client.generateAuthUrl({
     access_type: 'offline',
     scope: GOOGLE.SCOPES,
@@ -22,7 +28,6 @@ export async function getToken(message: Message, oAuth2Client: OAuth2Client): Pr
   ));
 
   try {
-    console.log("Message Await")
     const reply = (await message.channel.awaitMessages(
       (m: Message) => m.author.id === message.author.id,
       {
@@ -31,19 +36,40 @@ export async function getToken(message: Message, oAuth2Client: OAuth2Client): Pr
         errors: ['time']
       }
     )).first()
-    console.log("Message Get")
 
     try {
       const token = (await oAuth2Client.getToken(reply!.content.trim())).tokens
       oAuth2Client.setCredentials(token)
-      await promises.writeFile(GOOGLE.TOKEN_PATH, JSON.stringify(token))
+
+      const loggedin = (await google.people(
+        { version: 'v1', auth: oAuth2Client }
+      ).people.get({
+        resourceName: 'people/me',
+        personFields: 'names,emailAddresses'
+      })).data
+
+      const name = loggedin.names![0].displayName!
+      const emailAddress = loggedin.emailAddresses![0].value!
+
+      await promises.writeFile(GOOGLE.TOKEN_PATH, JSON.stringify({
+        installed: token,
+        info: {
+          name: name,
+          emailAddress: emailAddress
+        }
+      } as googleTokenType))
 
       await message.channel.send(new MessageEmbed({
         title: "인증 성공",
         color: 0x00ff00,
         description: '인증 성공. 인증 정보가 저장되었습니다.'
       }))
-      return google.sheets({ version: 'v4', auth: oAuth2Client })
+
+      return {
+        sheets: google.sheets({ version: 'v4', auth: oAuth2Client }),
+        name: name,
+        emailAddress: emailAddress
+      }
     } catch (e) {
       await message.channel.send(
         ErrorMessage("인증에 실패하였습니다.")

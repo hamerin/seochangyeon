@@ -1,6 +1,10 @@
 export const GOOGLE = {
-  SCOPES: ['https://www.googleapis.com/auth/spreadsheets'],
-  TOKEN_PATH: '../.google-token.json',
+  SCOPES: [
+    'profile',
+    'https://www.googleapis.com/auth/user.emails.read',
+    'https://www.googleapis.com/auth/spreadsheets',
+  ],
+  TOKEN_PATH: '.google-token.json',
   CREDENTIAL_PATH: '.google-credentials.json'
 }
 

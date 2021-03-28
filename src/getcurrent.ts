@@ -18,7 +18,7 @@ export async function getCurrent(message: Message, sheets: sheets_v4.Sheets, num
       embed
     )
   } catch (e) {
-    message.channel.send(
+    await message.channel.send(
       ErrorMessage()
     )
   }

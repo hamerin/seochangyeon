@@ -41,7 +41,7 @@ export async function setPlace(message: Message, sheets: sheets_v4.Sheets,
       description: '이석 신청에 성공하였습니다.'
     }))
   } catch (e) {
-    message.channel.send(
+    await message.channel.send(
       ErrorMessage()
     )
   }

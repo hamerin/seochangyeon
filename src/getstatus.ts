@@ -21,7 +21,7 @@ export async function getStatus(message: Message, sheets: sheets_v4.Sheets, mode
       embed
     )
   } catch (e) {
-    message.channel.send(
+    await message.channel.send(
       ErrorMessage()
     )
   }
