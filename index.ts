@@ -138,7 +138,7 @@ client.on('message', async message => {
   try {
     const data: googleTokenType = JSON.parse(
       (await promises.readFile(GOOGLE.TOKEN_PATH)).toString()
-    ).installed
+    )
 
     oAuth2Client.setCredentials(data.installed)
     sheets = google.sheets({ version: 'v4', auth: oAuth2Client })
