@@ -25,7 +25,7 @@ client.on('ready', () => {
 
 client.on('message', async message => {
   if (message.content.startsWith('창연아 ')) {
-    const content = message.content.trim().slice(4)
+    const content = message.content.trim().slice(4).replace('피카츄', '2608')
 
     if(content.startsWith('도움말')) {
       await message.channel.send(
