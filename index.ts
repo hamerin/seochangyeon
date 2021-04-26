@@ -80,6 +80,17 @@ client.on('message', async message => {
       return
     }
 
+    if (content.startsWith('피카피카')) {
+      try {
+        await setPlace(message, sheets, codeToNum(2209)!, '2학년공강실(20명)', 3)
+        await setPlace(message, sheets, codeToNum(2416)!, '2학년공강실(20명)', 3)
+        await setPlace(message, sheets, codeToNum(2608)!, '2학년공강실(20명)', 3)
+        await setPlace(message, sheets, codeToNum(2617)!, '2학년공강실(20명)', 3)
+      } catch (e) {
+        await message.channel.send(ErrorMessage('먼가 암튼 잘못됨'))
+      }
+    }
+
     if (content.startsWith('현황')) {
       try {
         if (sanitizeMode1(content.slice(3)) === undefined) throw Error;
@@ -113,7 +124,7 @@ client.on('message', async message => {
         await setPlace(message, sheets,
           codeToNum(parseInt(splitted[0]))!, sanitizePlace(splitted[1])!, sanitizeMode2(splitted[2])!)
       } catch (e) {
-        await message.channel.send(ErrorMessage('사용법: \`창연아 신청 [(학번)] [(장소)|취소] [1|2|3|1교시|2교시|모두]\`'))
+        await message.channel.send(ErrorMessage('사용법: \`창연아 신청 [(학번)] [(장소)|취소] [1|2|3|1교시|2교시|모두|전부]\`'))
       }
     }
   }
