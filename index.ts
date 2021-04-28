@@ -122,22 +122,21 @@ client.on('message', async message => {
           if (sanitizeMode2(splitted[3]) === undefined) throw Error;
 
           await setPlace(message, sheets,
-            codeToNum(parseInt(splitted[0]))!, splitted[2], sanitizeMode2(splitted[2])!)
+            codeToNum(parseInt(splitted[0]))!, splitted[2], sanitizeMode2(splitted[3])!)
         } catch (e) {
           await message.channel.send(ErrorMessage('사용법: \`창연아 신청 [(학번)] force [(아무거나)] [1|2|3|1교시|2교시|모두|전부]\`'))
         }
+      } else {
+        try {
+          if (parseInt(splitted[0]) === undefined) throw Error;
+          if (sanitizePlace(splitted[1]) === undefined) throw Error;
+          if (sanitizeMode2(splitted[2]) === undefined) throw Error;
 
-      }
-
-      try {
-        if (parseInt(splitted[0]) === undefined) throw Error;
-        if (sanitizePlace(splitted[1]) === undefined) throw Error;
-        if (sanitizeMode2(splitted[2]) === undefined) throw Error;
-
-        await setPlace(message, sheets,
-          codeToNum(parseInt(splitted[0]))!, sanitizePlace(splitted[1])!, sanitizeMode2(splitted[2])!)
-      } catch (e) {
-        await message.channel.send(ErrorMessage('사용법: \`창연아 신청 [(학번)] [(장소)|취소] [1|2|3|1교시|2교시|모두|전부]\`'))
+          await setPlace(message, sheets,
+            codeToNum(parseInt(splitted[0]))!, sanitizePlace(splitted[1])!, sanitizeMode2(splitted[2])!)
+        } catch (e) {
+          await message.channel.send(ErrorMessage('사용법: \`창연아 신청 [(학번)] [(장소)|취소] [1|2|3|1교시|2교시|모두|전부]\`'))
+        }
       }
     }
   }
