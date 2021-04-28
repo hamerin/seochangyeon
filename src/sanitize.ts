@@ -24,10 +24,6 @@ export function codeToNum(code: number): number | undefined {
 }
 
 export function sanitizePlace(place: string): string | undefined {
-  if(place.startsWith('force ')) {
-    return place.slice(6);
-  }
-
   return {
     '취소': '',
     '융과실': '융합과학실험실',

@@ -27,7 +27,7 @@ client.on('message', async message => {
   if (message.content.startsWith('창연아 ')) {
     const content = message.content.trim().slice(4).replace('피카츄', '2608')
 
-    if(content.startsWith('도움말')) {
+    if (content.startsWith('도움말')) {
       await message.channel.send(
         new MessageEmbed({
           title: '도움말',
@@ -115,6 +115,19 @@ client.on('message', async message => {
 
     if (content.startsWith('신청')) {
       const splitted = content.slice(3).split(' ')
+
+      if (splitted[1] === 'force') {
+        try {
+          if (parseInt(splitted[0]) === undefined) throw Error;
+          if (sanitizeMode2(splitted[3]) === undefined) throw Error;
+
+          await setPlace(message, sheets,
+            codeToNum(parseInt(splitted[0]))!, splitted[2], sanitizeMode2(splitted[2])!)
+        } catch (e) {
+          await message.channel.send(ErrorMessage('사용법: \`창연아 신청 [(학번)] force [(아무거나)] [1|2|3|1교시|2교시|모두|전부]\`'))
+        }
+
+      }
 
       try {
         if (parseInt(splitted[0]) === undefined) throw Error;
