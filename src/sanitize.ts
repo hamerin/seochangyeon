@@ -46,16 +46,7 @@ export function sanitizePlace(place: string): string | undefined {
   }[place]
 }
 
-export function sanitizeMode1(str: string): number | undefined {
-  return {
-    '1': 1,
-    '1교시': 1,
-    '2': 2,
-    '2교시': 2
-  }[str]
-}
-
-export function sanitizeMode2(str: string): number | undefined {
+export function sanitizeMode(str: string): number | undefined {
   return {
     '1': 1,
     '1교시': 1,
