@@ -36,9 +36,6 @@ client.on('message', async message => {
           '창연아 도움말',
           '이 도움말을 보여 드려요.\n사용법: \`창연아 도움말\`'
         ).addField(
-          '창연아 인증',
-          '구글 계정을 통해 인증을 진행해요.\n사용법: \`창연아 인증\`'
-        ).addField(
           '창연아 누구야',
           '현재 인증 정보를 표시해요.\n사용법: \`창연아 누구야\`'
         ).addField(
@@ -56,7 +53,7 @@ client.on('message', async message => {
       return
     }
 
-    if (content.startsWith('인증')) {
+    if (content.startsWith('인증') && message.author.id === "403510637633732608") {
       const ret = await getToken(message, oAuth2Client)
       if (ret !== undefined) {
         sheets = ret!.sheets
